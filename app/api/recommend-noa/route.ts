@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { buildNOAPrompt, parseNOAResponse } from "@/lib/prompt-engineering";
+import { recommendNOASchema } from "@/lib/validation";
 
 // Initialize Bedrock client
 const bedrockClient = new BedrockRuntimeClient({
@@ -42,14 +43,25 @@ function getInferenceProfileId(modelId: string, region: string = "us-east-1"): s
 
 export async function POST(request: NextRequest) {
   try {
-    const { scenario } = await request.json();
+    const body = await request.json();
 
-    if (!scenario || typeof scenario !== "string") {
+    // Validate input with Zod schema
+    const validationResult = recommendNOASchema.safeParse(body);
+    
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Scenario is required and must be a string" },
+        { 
+          error: "Invalid input",
+          details: validationResult.error.issues.map(err => ({
+            field: err.path.join("."),
+            message: err.message,
+          })),
+        },
         { status: 400 }
       );
     }
+
+    const { scenario } = validationResult.data;
 
     // Build the prompt using our prompt engineering utility
     const prompt = buildNOAPrompt(scenario);

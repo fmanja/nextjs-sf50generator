@@ -79,6 +79,7 @@ This is a single-screen application designed for stakeholder demonstrations, foc
 - **AI/ML**: AWS Bedrock (Claude 3.5 Sonnet, Claude 3.7 Sonnet, or newer)
 - **AWS SDK**: @aws-sdk/client-bedrock-runtime
 - **PDF Generation**: @react-pdf/renderer
+- **Validation**: Zod (type-safe input validation)
 
 ## Project Level & Prerequisites
 
@@ -477,7 +478,8 @@ nextjs-sf50generator/
 │   ├── prompt-engineering.ts     # NOA recommendation prompt building & parsing
 │   ├── sample-data.ts             # Sample employee data
 │   ├── helpers.ts                 # Utility functions
-│   └── utils.ts                   # Tailwind merge utility
+│   ├── utils.ts                   # Tailwind merge utility
+│   └── validation.ts              # Zod schemas for input validation
 └── types/
     └── index.ts                   # TypeScript type definitions
 ```
@@ -501,6 +503,7 @@ nextjs-sf50generator/
 ### `/api/recommend-noa`
 
 Initial recommendation endpoint that:
+- Validates input with Zod schema (scenario must be a string, max 5,000 characters)
 - Accepts employee scenario descriptions
 - Builds structured prompts using prompt engineering utilities
 - Invokes AWS Bedrock with Claude models
@@ -527,9 +530,26 @@ Initial recommendation endpoint that:
 }
 ```
 
+**Validation Error Response (400):**
+```json
+{
+  "error": "Invalid input",
+  "details": [
+    {
+      "field": "scenario",
+      "message": "Scenario cannot exceed 5000 characters"
+    }
+  ]
+}
+```
+
 ### `/api/chat-noa`
 
 Conversational update endpoint that:
+- Validates input with Zod schema:
+  - Original scenario must be a string (max 5,000 characters)
+  - Conversation history must be an array (max 50 messages)
+  - Each message must have valid role ("user" or "assistant") and content (max 2,000 characters)
 - Accepts the original scenario and conversation history
 - Updates recommendations based on user responses
 - Returns refined recommendations with new clarifications if needed
@@ -557,6 +577,23 @@ Conversational update endpoint that:
     "requiredSF50Fields": ["Position title", "Pay plan", "Grade", "Step"],
     "opmRemarks": "Permanent promotion from GS-12 Step 5 to GS-13 Step 1 effective March 1, 2024 via competitive certificate CERT-2024-001..."
   }
+}
+```
+
+**Validation Error Response (400):**
+```json
+{
+  "error": "Invalid input",
+  "details": [
+    {
+      "field": "conversationHistory.0.role",
+      "message": "Invalid enum value. Expected 'user' | 'assistant', received 'admin'"
+    },
+    {
+      "field": "conversationHistory.1.content",
+      "message": "Content cannot exceed 2000 characters"
+    }
+  ]
 }
 ```
 
@@ -594,6 +631,11 @@ All sample data is in `lib/sample-data.ts` and can be replaced with real data wh
 
 ## Security & Privacy
 
+- **Input Validation**: All API inputs are validated using Zod schemas to prevent injection attacks and DoS:
+  - Scenario descriptions limited to 5,000 characters
+  - Chat messages limited to 2,000 characters
+  - Conversation history limited to 50 messages
+  - Type-safe validation ensures data integrity
 - **SSN Handling**: Social Security Numbers are entered at generation time and never stored (per PRD requirements). The PDF shows a placeholder indicating SSN is entered at generation.
 - **AWS Credentials**: Store securely in environment variables, never commit to version control
 - **IAM Permissions**: Use least-privilege IAM policies in production

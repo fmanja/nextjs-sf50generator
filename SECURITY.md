@@ -110,17 +110,30 @@ When deploying this application:
 
 ### Input Validation
 
-- All user inputs are validated on both client and server
-- API routes validate all inputs before processing
-- Type-safe request/response handling with TypeScript
-- Scenario descriptions are sanitized before sending to AI
+- **Zod Schema Validation**: All API inputs are validated using Zod schemas for type safety and security
+- **Input Limits**: 
+  - Scenario descriptions: Maximum 5,000 characters (prevents DoS attacks)
+  - Chat messages: Maximum 2,000 characters per message
+  - Conversation history: Maximum 50 messages per conversation
+- **Structure Validation**: 
+  - Conversation history messages must have valid `role` ("user" or "assistant") and `content` (non-empty string)
+  - All inputs are trimmed and validated before processing
+- **Type Safety**: TypeScript types are automatically inferred from Zod schemas
+- **Error Handling**: Validation errors return structured error messages with field-level details
+- **Client and Server Validation**: Inputs are validated on both client and server for defense in depth
+- **Sanitization**: All string inputs are trimmed before being sent to AWS Bedrock
 
 ### API Security
 
-- API routes run server-side only
-- No sensitive data exposed in client-side code
-- Proper error handling without exposing internal details
-- Security headers configured (HSTS, X-Frame-Options, etc.)
+- **Server-Side Execution**: API routes run server-side only
+- **Input Validation**: All requests are validated with Zod before processing:
+  - Prevents injection attacks
+  - Protects against DoS via oversized payloads
+  - Ensures data type correctness
+  - Validates conversation history structure
+- **Error Handling**: Proper error handling without exposing internal details
+- **Security Headers**: Security headers configured (HSTS, X-Frame-Options, etc.)
+- **No Sensitive Data Exposure**: No sensitive data exposed in client-side code
 
 ### PDF Generation
 

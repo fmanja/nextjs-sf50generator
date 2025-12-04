@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { buildNOAPrompt, parseNOAResponse } from "@/lib/prompt-engineering";
+import { chatNOASchema } from "@/lib/validation";
 
 // Initialize Bedrock client
 const bedrockClient = new BedrockRuntimeClient({
@@ -63,21 +64,25 @@ Output:`;
 
 export async function POST(request: NextRequest) {
   try {
-    const { originalScenario, conversationHistory } = await request.json();
+    const body = await request.json();
 
-    if (!originalScenario || typeof originalScenario !== "string") {
+    // Validate input with Zod schema
+    const validationResult = chatNOASchema.safeParse(body);
+    
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Original scenario is required and must be a string" },
+        { 
+          error: "Invalid input",
+          details: validationResult.error.issues.map(err => ({
+            field: err.path.join("."),
+            message: err.message,
+          })),
+        },
         { status: 400 }
       );
     }
 
-    if (!Array.isArray(conversationHistory)) {
-      return NextResponse.json(
-        { error: "Conversation history must be an array" },
-        { status: 400 }
-      );
-    }
+    const { originalScenario, conversationHistory } = validationResult.data;
 
     // Build the conversational prompt
     const prompt = buildConversationalPrompt(originalScenario, conversationHistory);
