@@ -3,8 +3,11 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black)](https://nextjs-sf50generator.vercel.app/)
 
 A focused, standalone Next.js application that demonstrates the AI Assistant functionality for generating SF-50 (Standard Form 50) personnel action form recommendations. This application uses AWS Bedrock with Claude models to recommend appropriate Nature of Action (NOA) codes based on employee scenarios.
+
+**🌐 [Live Demo](https://nextjs-sf50generator.vercel.app/)** - Try the application online!
 
 ## Table of Contents
 
