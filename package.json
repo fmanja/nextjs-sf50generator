@@ -1,0 +1,57 @@
+{
+  "name": "nextjs-sf50generator",
+  "version": "0.1.0",
+  "private": false,
+  "description": "AI-powered SF-50 form generator with NOA code recommendations using AWS Bedrock and Claude",
+  "author": "Frank Manja",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fmanja/nextjs-sf50generator.git"
+  },
+  "keywords": [
+    "nextjs",
+    "aws-bedrock",
+    "claude",
+    "ai",
+    "sf-50",
+    "federal-government",
+    "hr",
+    "typescript",
+    "pdf-generation",
+    "chatbot"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.931.0",
+    "@radix-ui/react-select": "^2.0.0",
+    "@react-pdf/renderer": "^4.3.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.344.0",
+    "next": "^14.2.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.4.5"
+  },
+  "overrides": {
+    "glob": "^10.4.6"
+  }
+}
