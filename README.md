@@ -13,6 +13,7 @@ A focused, standalone Next.js application that demonstrates the AI Assistant fun
 
 - [Overview](#overview)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
 - [Project Level & Prerequisites](#project-level--prerequisites)
 - [Prerequisites](#prerequisites)
@@ -71,6 +72,26 @@ This is a single-screen application designed for stakeholder demonstrations, foc
 - **Effective Date**: Set the effective date for the personnel action
 - **View & Download**: Preview the PDF inline and download for official use
 - **Professional Format**: Standard SF-50 form layout with all required fields
+
+## Screenshots
+
+### Getting AI Recommendations
+
+![Get Recommendation](images/Get_Recommendation.png)
+
+*Select an employee and describe the personnel action scenario to receive AI-powered NOA code recommendations.*
+
+### Initial Recommendation with Follow-up Questions
+
+![Initial Recommendation with Follow-ups](images/Initial_Recommendation_FollowUps.png)
+
+*View the AI recommendation and interact with the chatbot to answer follow-up questions that refine the recommendation.*
+
+### Generating SF-50 PDF
+
+![Generate SF-50](images/Generate_SF50.png)
+
+*Generate and download a complete SF-50 form PDF with all recommendations, employee information, and required fields pre-populated.*
 
 ## Tech Stack
 
@@ -477,12 +498,16 @@ nextjs-sf50generator/
 │   │   └── textarea.tsx
 │   ├── sf50-document.tsx          # SF-50 PDF document component
 │   └── pdf-viewer-wrapper.tsx     # PDF viewer wrapper (client-side)
+├── images/                        # Screenshots and images for documentation
+│   ├── Get_Recommendation.png
+│   ├── Initial_Recommendation_FollowUps.png
+│   └── Generate_SF50.png
 ├── lib/
 │   ├── prompt-engineering.ts     # NOA recommendation prompt building & parsing
 │   ├── sample-data.ts             # Sample employee data
+│   ├── validation.ts              # Zod schemas for input validation
 │   ├── helpers.ts                 # Utility functions
-│   ├── utils.ts                   # Tailwind merge utility
-│   └── validation.ts              # Zod schemas for input validation
+│   └── utils.ts                   # Tailwind merge utility
 └── types/
     └── index.ts                   # TypeScript type definitions
 ```
