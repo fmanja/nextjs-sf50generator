@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black)](https://nextjs-sf50generator.vercel.app/)
 
-A focused, standalone Next.js application that demonstrates the AI Assistant functionality for generating SF-50 (Standard Form 50) personnel action form recommendations. This application uses AWS Bedrock with Claude models to recommend appropriate Nature of Action (NOA) codes based on employee scenarios.
+Processing personnel actions in accordance with OPM standards is one of the core functions of Human Resources in the Federal government. This project is a focused, standalone Next.js application that demonstrates the AI Assistant functionality for generating SF-50 (Standard Form 50) personnel action form recommendations. This application uses AWS Bedrock with Claude models to recommend appropriate Nature of Action (NOA) codes based on employee scenarios.
 
 **🌐 [Live Demo](https://nextjs-sf50generator.vercel.app/)** - Try the application online!
 
