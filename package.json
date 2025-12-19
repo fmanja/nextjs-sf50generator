@@ -1,6 +1,6 @@
 {
   "name": "nextjs-sf50generator",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "private": false,
   "description": "AI-powered SF-50 form generator with NOA code recommendations using AWS Bedrock and Claude",
   "author": "Frank Manja",
